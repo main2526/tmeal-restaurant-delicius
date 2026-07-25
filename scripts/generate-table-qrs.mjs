@@ -5,7 +5,7 @@ import QRCode from "qrcode";
 
 const tableCount = 12;
 const restaurantMenuUrl =
-  process.env.RESTAURANT_MENU_URL ?? "https://www.deliciasbavaro.com";
+  process.env.RESTAURANT_MENU_URL ?? "https://tdelicius.vercel.app";
 const outputDirectory = resolve("public", "qr");
 
 await mkdir(outputDirectory, { recursive: true });
