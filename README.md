@@ -38,3 +38,11 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 # tmeal-restaurant-delicius
 # tmeal-restaurant-delicius
 # tmeal-restaurant-delicius
+## Supabase y panel administrativo
+
+El proyecto incluye un panel protegido en `/admin`. Para activarlo:
+
+1. Ejecuta la migración y el seed que están en `supabase/migrations/` y `supabase/seed.sql` desde el SQL Editor de Supabase.
+2. Crea el usuario administrador en Supabase Auth y añádelo a `public.restaurant_admins`.
+3. Configura las tres variables de `.env.example` en Vercel. La clave `SUPABASE_SERVICE_ROLE_KEY` es secreta y nunca debe comenzar por `NEXT_PUBLIC_`.
+4. Vuelve a desplegar Vercel. El menú público sincronizará los platos disponibles y `/admin` permitirá administrar el restaurante.

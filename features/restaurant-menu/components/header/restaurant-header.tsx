@@ -1,4 +1,5 @@
-import { Globe, History } from "lucide-react";
+import { Globe, History, ShieldCheck } from "lucide-react";
+import Link from "next/link";
 
 import type { Language, UiText } from "../../types";
 
@@ -20,20 +21,30 @@ export function RestaurantHeader({
   return (
     <header className="sticky top-0 z-40 border-b border-neutral-100 bg-white/80 px-6 py-4 backdrop-blur-xl">
       <div className="mx-auto flex max-w-2xl items-center justify-between">
-        <div className="flex items-center gap-4">
-          <button
-            type="button"
-            aria-label={copy.history}
-            onClick={onOpenHistory}
-            className="rounded-xl bg-neutral-100 p-2 text-neutral-600 transition-colors hover:text-red-600"
-          >
-            <History size={20} />
-          </button>
+        <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+          <div className="flex shrink-0 items-center gap-1.5">
+            <button
+              type="button"
+              aria-label={copy.history}
+              onClick={onOpenHistory}
+              className="rounded-xl bg-neutral-100 p-2 text-neutral-600 transition-colors hover:text-red-600"
+            >
+              <History size={20} />
+            </button>
+            <Link
+              href="/admin"
+              aria-label={copy.adminPanel}
+              title={copy.adminPanel}
+              className="rounded-xl bg-neutral-100 p-2 text-neutral-600 transition-colors hover:bg-red-50 hover:text-red-600"
+            >
+              <ShieldCheck size={20} />
+            </Link>
+          </div>
           <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-red-500">
               {copy.welcome}
             </span>
-            <h1 className="text-xl font-black italic leading-none tracking-tighter text-neutral-900">
+            <h1 className="truncate text-lg font-black italic leading-none tracking-tighter text-neutral-900 sm:text-xl">
               DELICIAS <span className="text-red-600">DE BÁVARO</span>
             </h1>
           </div>

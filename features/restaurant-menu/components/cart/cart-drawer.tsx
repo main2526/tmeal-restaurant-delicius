@@ -9,9 +9,10 @@ interface CartDrawerProps {
   cartTotal: number;
   copy: UiText;
   isOpen: boolean;
+  isSubmitting: boolean;
   language: Language;
   onClose: () => void;
-  onConfirm: () => void;
+  onConfirm: () => void | Promise<void>;
   onQuantityChange: (itemId: number, change: number) => void;
 }
 
@@ -20,6 +21,7 @@ export function CartDrawer({
   cartTotal,
   copy,
   isOpen,
+  isSubmitting,
   language,
   onClose,
   onConfirm,
@@ -48,7 +50,7 @@ export function CartDrawer({
           </h3>
           <button
             type="button"
-            aria-label="Cerrar"
+            aria-label={copy.close}
             onClick={onClose}
             className="rounded-full bg-neutral-100 p-2"
           >
@@ -57,36 +59,49 @@ export function CartDrawer({
         </div>
 
         <div className="space-y-6">
-          {cart.map((item) => (
-            <div
-              key={item.id}
-              className="flex items-center justify-between border-b border-neutral-50 pb-4"
-            >
-              <div className="flex-1">
-                <h4 className="font-bold text-neutral-800">{item.name[language]}</h4>
-                <p className="text-xs font-bold text-red-600">{formatCurrency(item.price)}</p>
+          {cart.length === 0 ? (
+            <p className="rounded-3xl bg-neutral-50 px-5 py-8 text-center text-sm font-medium text-neutral-400">
+              {copy.emptyCart}
+            </p>
+          ) : (
+            cart.map((item) => (
+              <div
+                key={item.id}
+                className="flex items-center justify-between border-b border-neutral-50 pb-4"
+              >
+                <div className="flex-1">
+                  <h4 className="font-bold text-neutral-800">{item.name[language]}</h4>
+                  <p className="text-xs font-bold text-red-600">
+                    {formatCurrency(item.price)}
+                  </p>
+                </div>
+                <QuantityControl
+                  decreaseLabel={copy.decreaseQuantity}
+                  increaseLabel={copy.increaseQuantity}
+                  quantity={item.qty}
+                  onDecrease={() => onQuantityChange(item.id, -1)}
+                  onIncrease={() => onQuantityChange(item.id, 1)}
+                />
               </div>
-              <QuantityControl
-                quantity={item.qty}
-                onDecrease={() => onQuantityChange(item.id, -1)}
-                onIncrease={() => onQuantityChange(item.id, 1)}
-              />
-            </div>
-          ))}
+            ))
+          )}
         </div>
 
         <div className="mt-10 space-y-4">
           <div className="flex items-center justify-between border-t border-neutral-100 pt-6 text-xl font-black">
             <span>{copy.total}</span>
-            <span className="text-2xl font-black text-red-600">{formatCurrency(cartTotal)}</span>
+            <span className="text-2xl font-black text-red-600">
+              {formatCurrency(cartTotal)}
+            </span>
           </div>
           <button
             type="button"
             onClick={onConfirm}
-            className="mt-4 flex w-full items-center justify-center gap-3 rounded-3xl bg-red-600 py-6 text-lg font-black text-white shadow-xl shadow-red-100 transition-transform active:scale-95"
+            disabled={cart.length === 0 || isSubmitting}
+            className="mt-4 flex w-full items-center justify-center gap-3 rounded-3xl bg-red-600 py-6 text-lg font-black text-white shadow-xl shadow-red-100 transition-transform active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ChefHat />
-            {copy.confirm}
+            {isSubmitting ? copy.sendingOrder : copy.confirm}
           </button>
         </div>
       </section>

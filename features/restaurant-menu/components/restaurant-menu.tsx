@@ -25,7 +25,9 @@ export function RestaurantMenu() {
     history,
     isCartOpen,
     isHistoryOpen,
+    isSubmitting,
     language,
+    orderError,
     searchQuery,
     setActiveCategory,
     setHistory,
@@ -41,6 +43,14 @@ export function RestaurantMenu() {
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans text-neutral-900 selection:bg-red-100">
       <AddedToast message={copy.added} visible={showToast} />
+      {orderError ? (
+        <div
+          role="alert"
+          className="fixed top-24 left-1/2 z-[100] w-[calc(100%-3rem)] max-w-md -translate-x-1/2 rounded-2xl bg-neutral-900 px-5 py-4 text-center text-sm font-bold text-white shadow-2xl"
+        >
+          {orderError}
+        </div>
+      ) : null}
 
       <RestaurantHeader
         copy={copy}
@@ -63,6 +73,7 @@ export function RestaurantMenu() {
           onSelect={setActiveCategory}
         />
         <MenuList
+          addLabel={copy.addItem}
           categoryName={activeCategoryData?.name[language] ?? ""}
           emptyMessage={copy.empty}
           items={filteredItems}
@@ -83,6 +94,7 @@ export function RestaurantMenu() {
         cartTotal={cartTotal}
         copy={copy}
         isOpen={isCartOpen}
+        isSubmitting={isSubmitting}
         language={language}
         onClose={() => setIsCartOpen(false)}
         onConfirm={confirmOrder}

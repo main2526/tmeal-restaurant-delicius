@@ -2,12 +2,7 @@ import type { LucideIcon } from "lucide-react";
 
 export type Language = "es" | "en";
 
-export type CategoryId =
-  | "entradas"
-  | "ninos"
-  | "pasteles_en_hoja"
-  | "sandwich"
-  | "ensaladas";
+export type CategoryId = string;
 
 export interface LocalizedText {
   es: string;
@@ -18,6 +13,8 @@ export interface Category {
   id: CategoryId;
   name: LocalizedText;
   icon: LucideIcon;
+  isVisible?: boolean;
+  sortOrder?: number;
 }
 
 export interface MenuItem {
@@ -27,6 +24,8 @@ export interface MenuItem {
   description: LocalizedText;
   price: number;
   image: string;
+  isAvailable?: boolean;
+  sortOrder?: number;
 }
 
 export interface CartItem extends MenuItem {
@@ -61,4 +60,13 @@ export interface UiText {
   clearHistory: string;
   added: string;
   back: string;
+  addItem: string;
+  close: string;
+  decreaseQuantity: string;
+  increaseQuantity: string;
+  emptyCart: string;
+  sendingOrder: string;
+  orderError: string;
+  clearHistoryConfirm: string;
+  adminPanel: string;
 }

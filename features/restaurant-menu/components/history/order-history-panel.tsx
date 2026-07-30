@@ -25,7 +25,7 @@ export function OrderHistoryPanel({
   }
 
   function clearHistory() {
-    if (window.confirm("¿Limpiar historial?")) {
+    if (window.confirm(copy.clearHistoryConfirm)) {
       onClear();
     }
   }
@@ -103,7 +103,9 @@ export function OrderHistoryPanel({
                 </div>
 
                 <div className="flex items-center justify-between border-t border-dashed border-neutral-200 pt-4">
-                  <span className="text-xs font-bold uppercase text-neutral-400">{copy.total}</span>
+                  <span className="text-xs font-bold uppercase text-neutral-400">
+                    {copy.total}
+                  </span>
                   <span className="text-lg font-black">{formatCurrency(order.total)}</span>
                 </div>
               </article>
