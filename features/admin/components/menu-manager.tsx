@@ -115,12 +115,12 @@ export function MenuManager({
 
   return (
     <section>
-      <div className="mb-8 flex flex-wrap items-end justify-between gap-4">
-        <div>
+      <div className="mb-7 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-red-600">
             Carta digital
           </p>
-          <h1 className="mt-2 text-3xl font-black tracking-tight text-neutral-950">
+          <h1 className="mt-2 text-2xl font-black tracking-tight text-neutral-950 sm:text-3xl">
             Menú
           </h1>
           <p className="mt-2 text-sm text-neutral-500">
@@ -130,7 +130,7 @@ export function MenuManager({
         <button
           type="button"
           onClick={openNewItemForm}
-          className="flex items-center gap-2 rounded-xl bg-red-600 px-4 py-3 text-sm font-black text-white shadow-lg shadow-red-100 hover:bg-red-700"
+          className="flex w-full items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-3 text-sm font-black text-white shadow-lg shadow-red-100 hover:bg-red-700 sm:w-auto"
         >
           <Plus size={17} />
           Nuevo plato
@@ -140,7 +140,7 @@ export function MenuManager({
       {isFormOpen ? (
         <form
           onSubmit={handleSubmit}
-          className="mb-7 rounded-2xl border border-red-100 bg-red-50/40 p-5"
+          className="mb-7 rounded-2xl border border-red-100 bg-red-50/40 p-4 sm:p-5"
         >
           <div className="mb-5 flex items-center justify-between gap-4">
             <div>
@@ -281,9 +281,9 @@ export function MenuManager({
         {items.map((item) => (
           <article
             key={item.id}
-            className="flex gap-4 rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm"
+            className="flex min-w-0 gap-3 rounded-2xl border border-neutral-200 bg-white p-3 shadow-sm sm:gap-4 sm:p-4"
           >
-            <div className="h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-neutral-100">
+            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-neutral-100 sm:h-24 sm:w-24">
               {item.imageUrl ? (
                 <img
                   src={item.imageUrl}
@@ -298,21 +298,21 @@ export function MenuManager({
             </div>
 
             <div className="min-w-0 flex-1">
-              <div className="flex items-start justify-between gap-2">
+              <div className="flex min-w-0 flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
                 <div className="min-w-0">
-                  <h2 className="truncate font-black text-neutral-950">
+                  <h2 className="line-clamp-2 break-words text-sm font-black leading-tight text-neutral-950 sm:text-base">
                     {item.nameEs}
                   </h2>
                   <p className="truncate text-xs text-neutral-400">
                     {item.nameEn}
                   </p>
                 </div>
-                <span className="whitespace-nowrap text-sm font-black text-red-600">
+                <span className="whitespace-nowrap text-xs font-black text-red-600 sm:text-sm">
                   {formatCurrency(item.price)}
                 </span>
               </div>
 
-              <div className="mt-3 flex items-center justify-between gap-2">
+              <div className="mt-2 flex items-center justify-between gap-2 sm:mt-3">
                 <button
                   type="button"
                   onClick={() => void onToggleAvailability(item)}

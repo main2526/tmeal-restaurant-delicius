@@ -19,32 +19,32 @@ export function MenuItemCard({
   onAdd,
 }: MenuItemCardProps) {
   return (
-    <article className="group flex gap-4 overflow-hidden rounded-3xl border border-neutral-100 bg-white p-3 shadow-sm transition-all hover:shadow-md active:scale-[0.98]">
-      <div className="h-24 w-24 shrink-0 overflow-hidden rounded-2xl bg-neutral-100">
+    <article className="group flex min-w-0 gap-3 overflow-hidden rounded-2xl border border-neutral-100 bg-white p-2.5 shadow-sm transition-all hover:shadow-md active:scale-[0.98] sm:gap-4 sm:rounded-3xl sm:p-3">
+      <div className="h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-neutral-100 sm:h-24 sm:w-24 sm:rounded-2xl">
         <img
           src={item.image}
           alt={item.name[language]}
           className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
       </div>
-      <div className="flex flex-1 flex-col justify-between py-1">
-        <div>
-          <h3 className="font-bold leading-tight text-neutral-800">
+      <div className="flex min-w-0 flex-1 flex-col justify-between py-1">
+        <div className="min-w-0">
+          <h3 className="line-clamp-2 break-words text-sm font-bold leading-tight text-neutral-800 sm:text-base">
             {item.name[language]}
           </h3>
-          <p className="mt-1 line-clamp-2 text-[11px] text-neutral-400">
+          <p className="mt-1 line-clamp-2 text-[10px] leading-4 text-neutral-400 sm:text-[11px]">
             {item.description[language]}
           </p>
         </div>
-        <div className="mt-2 flex items-center justify-between">
-          <span className="text-sm font-bold text-red-600">
+        <div className="mt-2 flex items-center justify-between gap-2">
+          <span className="min-w-0 text-sm font-bold text-red-600">
             {formatCurrency(item.price)}
           </span>
           <button
             type="button"
             aria-label={`${addLabel} ${item.name[language]}`}
             onClick={() => onAdd(item)}
-            className="rounded-xl bg-neutral-900 p-2 text-white transition-colors hover:bg-red-600"
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-neutral-900 text-white transition-colors hover:bg-red-600"
           >
             <Plus size={16} />
           </button>
