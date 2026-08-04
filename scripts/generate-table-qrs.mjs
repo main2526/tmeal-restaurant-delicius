@@ -10,7 +10,7 @@ loadEnvConfig(process.cwd());
 
 const tableCount = 12;
 const restaurantMenuUrl =
-  process.env.RESTAURANT_MENU_URL ?? "https://tmeal.vercel.app";
+  process.env.RESTAURANT_MENU_URL ?? "https://tdelicius.vercel.app";
 // Signed QRs must never be deployed as predictable public assets.
 const outputDirectory = resolve("generated-qrs");
 const tableQrSecret = process.env.TABLE_QR_SECRET;
