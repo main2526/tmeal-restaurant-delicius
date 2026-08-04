@@ -67,11 +67,11 @@ export function QrManager() {
           <p className="mt-1 text-sm text-neutral-500">PDF · 12 páginas · listo para impresión</p>
         </div>
         {pdfUrl ? (
-          <div className="flex flex-wrap gap-2">
-            <a href={pdfUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 rounded-xl border border-neutral-200 px-4 py-2.5 text-sm font-bold text-neutral-700 transition hover:bg-neutral-50">
+          <div className="grid w-full grid-cols-1 gap-2 sm:flex sm:w-auto sm:flex-wrap">
+            <a href={pdfUrl} target="_blank" rel="noreferrer" className="inline-flex items-center justify-center gap-2 rounded-xl border border-neutral-200 px-4 py-2.5 text-sm font-bold text-neutral-700 transition hover:bg-neutral-50">
               <ExternalLink size={16} /> Abrir
             </a>
-            <a href={pdfUrl} download="codigos-qr-mesas.pdf" className="inline-flex items-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-black text-white transition hover:bg-red-700">
+            <a href={pdfUrl} download="codigos-qr-mesas.pdf" className="inline-flex items-center justify-center gap-2 rounded-xl bg-red-600 px-4 py-2.5 text-sm font-black text-white transition hover:bg-red-700">
               <Download size={16} /> Descargar PDF
             </a>
           </div>
@@ -82,7 +82,18 @@ export function QrManager() {
         {error ? (
           <div className="flex min-h-80 items-center justify-center p-8 text-center text-sm font-bold text-red-700">{error}</div>
         ) : pdfUrl ? (
-          <iframe title="Vista previa de los códigos QR por mesa" src={`${pdfUrl}#view=FitH`} className="h-[70vh] min-h-[520px] w-full bg-white" />
+          <>
+            <iframe
+              title="Vista previa móvil de los códigos QR por mesa"
+              src={`${pdfUrl}#page=1&view=Fit`}
+              className="h-[72svh] min-h-[460px] w-full bg-white sm:hidden"
+            />
+            <iframe
+              title="Vista previa de los códigos QR por mesa"
+              src={`${pdfUrl}#page=1&view=FitH`}
+              className="hidden h-[70vh] min-h-[520px] w-full bg-white sm:block"
+            />
+          </>
         ) : (
           <div className="flex min-h-80 items-center justify-center gap-3 text-sm font-bold text-neutral-500">
             <Loader2 className="animate-spin" size={20} /> Cargando vista previa...
