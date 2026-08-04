@@ -5,11 +5,13 @@ interface SubmitOrderInput {
   language: Language;
   table: string;
   total: number;
+  tableAccessToken: string;
 }
 
 type OrderErrorCode =
   | "not_configured"
   | "invalid_order"
+  | "invalid_table_access"
   | "duplicated_items"
   | "items_unavailable"
   | "server_error";
@@ -18,6 +20,7 @@ const errorMessages: Record<Language, Record<OrderErrorCode, string>> = {
   es: {
     not_configured: "El sistema de pedidos no está disponible todavía.",
     invalid_order: "Revisa tu pedido e inténtalo de nuevo.",
+    invalid_table_access: "Escanea el código QR de tu mesa para enviar el pedido.",
     duplicated_items: "Hay un producto repetido en tu pedido.",
     items_unavailable: "Uno o más productos ya no están disponibles.",
     server_error: "No se pudo registrar el pedido. Inténtalo de nuevo.",
@@ -25,6 +28,7 @@ const errorMessages: Record<Language, Record<OrderErrorCode, string>> = {
   en: {
     not_configured: "The ordering system is not available yet.",
     invalid_order: "Please review your order and try again.",
+    invalid_table_access: "Scan your table's QR code before sending an order.",
     duplicated_items: "A product is repeated in your order.",
     items_unavailable: "One or more items are no longer available.",
     server_error: "We couldn't register the order. Please try again.",
@@ -49,6 +53,7 @@ export async function submitRestaurantOrder(input: SubmitOrderInput) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         table: input.table,
+        tableAccessToken: input.tableAccessToken,
         language: input.language,
         items: input.items.map((item) => ({
           menuItemId: item.id,

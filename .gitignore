@@ -19,6 +19,7 @@
 
 # production
 /build
+/generated-qrs/
 
 # misc
 .DS_Store

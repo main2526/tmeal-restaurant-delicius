@@ -10,6 +10,7 @@ interface CartDrawerProps {
   copy: UiText;
   isOpen: boolean;
   isSubmitting: boolean;
+  hasTableAccess: boolean;
   language: Language;
   onClose: () => void;
   onConfirm: () => void | Promise<void>;
@@ -22,6 +23,7 @@ export function CartDrawer({
   copy,
   isOpen,
   isSubmitting,
+  hasTableAccess,
   language,
   onClose,
   onConfirm,
@@ -88,6 +90,11 @@ export function CartDrawer({
         </div>
 
         <div className="mt-10 space-y-4">
+          {!hasTableAccess ? (
+            <p role="alert" className="rounded-2xl bg-amber-50 px-4 py-3 text-center text-sm font-bold text-amber-800">
+              {copy.invalidTableAccess}
+            </p>
+          ) : null}
           <div className="flex items-center justify-between border-t border-neutral-100 pt-6 text-xl font-black">
             <span>{copy.total}</span>
             <span className="text-2xl font-black text-red-600">
@@ -97,7 +104,7 @@ export function CartDrawer({
           <button
             type="button"
             onClick={onConfirm}
-            disabled={cart.length === 0 || isSubmitting}
+            disabled={cart.length === 0 || isSubmitting || !hasTableAccess}
             className="mt-4 flex w-full items-center justify-center gap-3 rounded-3xl bg-red-600 py-6 text-lg font-black text-white shadow-xl shadow-red-100 transition-transform active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
             <ChefHat />

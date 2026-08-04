@@ -10,7 +10,11 @@ import { MenuList } from "./menu/menu-list";
 import { MenuSearch } from "./menu/menu-search";
 import { useRestaurantMenu } from "../hooks/use-restaurant-menu";
 
-export function RestaurantMenu() {
+interface RestaurantMenuProps {
+  tableAccess: { table: string; token: string } | null;
+}
+
+export function RestaurantMenu({ tableAccess }: RestaurantMenuProps) {
   const {
     activeCategory,
     activeCategoryData,
@@ -26,6 +30,7 @@ export function RestaurantMenu() {
     isCartOpen,
     isHistoryOpen,
     isSubmitting,
+    hasTableAccess,
     language,
     orderError,
     searchQuery,
@@ -38,7 +43,7 @@ export function RestaurantMenu() {
     table,
     toggleLanguage,
     updateQuantity,
-  } = useRestaurantMenu();
+  } = useRestaurantMenu(tableAccess);
 
   return (
     <div className="min-h-screen bg-[#F8F9FA] font-sans text-neutral-900 selection:bg-red-100">
@@ -95,6 +100,7 @@ export function RestaurantMenu() {
         copy={copy}
         isOpen={isCartOpen}
         isSubmitting={isSubmitting}
+        hasTableAccess={hasTableAccess}
         language={language}
         onClose={() => setIsCartOpen(false)}
         onConfirm={confirmOrder}

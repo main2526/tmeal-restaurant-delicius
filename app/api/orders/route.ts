@@ -1,9 +1,12 @@
 import { z } from "zod";
 
+import { isValidRestaurantTable } from "@/features/restaurant-menu/config/restaurant";
 import { getSupabaseAdminClient } from "@/lib/supabase/admin";
+import { isValidTableAccess } from "@/lib/table-access";
 
 const orderSchema = z.object({
-  table: z.string().trim().min(1).max(32),
+  table: z.string().trim().refine(isValidRestaurantTable),
+  tableAccessToken: z.string(),
   language: z.enum(["es", "en"]),
   items: z
     .array(
@@ -17,16 +20,20 @@ const orderSchema = z.object({
 });
 
 export async function POST(request: Request) {
-  const supabase = getSupabaseAdminClient();
-
-  if (!supabase) {
-    return Response.json({ code: "not_configured" }, { status: 503 });
-  }
-
   const parsed = orderSchema.safeParse(await request.json().catch(() => null));
 
   if (!parsed.success) {
     return Response.json({ code: "invalid_order" }, { status: 400 });
+  }
+
+  if (!isValidTableAccess(parsed.data.table, parsed.data.tableAccessToken)) {
+    return Response.json({ code: "invalid_table_access" }, { status: 403 });
+  }
+
+  const supabase = getSupabaseAdminClient();
+
+  if (!supabase) {
+    return Response.json({ code: "not_configured" }, { status: 503 });
   }
 
   const itemIds = parsed.data.items.map((item) => item.menuItemId);

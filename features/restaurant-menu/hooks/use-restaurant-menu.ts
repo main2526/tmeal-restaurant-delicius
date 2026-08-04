@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { hasSupabasePublicConfig } from "@/lib/supabase/client";
-
 import { RESTAURANT_CONFIG } from "../config/restaurant";
 import { categories as defaultCategories } from "../data/categories";
 import { menuItems as defaultMenuItems } from "../data/menu-items";
@@ -23,7 +21,7 @@ function parseStoredValue<T>(value: string | null, fallback: T) {
   }
 }
 
-export function useRestaurantMenu() {
+export function useRestaurantMenu(tableAccess: { table: string; token: string } | null) {
   const [language, setLanguage] = useState<Language>("es");
   const [activeCategory, setActiveCategory] = useState<CategoryId>(
     RESTAURANT_CONFIG.defaultCategory,
@@ -32,7 +30,8 @@ export function useRestaurantMenu() {
   const [history, setHistory] = useState<OrderHistory[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
-  const [table, setTable] = useState<string>(RESTAURANT_CONFIG.defaultTable);
+  const table = tableAccess?.table ?? "—";
+  const hasTableAccess = tableAccess !== null;
   const [searchQuery, setSearchQuery] = useState("");
   const [showToast, setShowToast] = useState(false);
   const [catalogCategories, setCatalogCategories] = useState(defaultCategories);
@@ -59,12 +58,6 @@ export function useRestaurantMenu() {
     setCart(savedCart);
     setHistory(savedHistory);
 
-    const tableFromQuery = new URLSearchParams(window.location.search).get("mesa");
-
-    if (tableFromQuery) {
-      // The table identifier comes from the current browser URL.
-      setTable(tableFromQuery);
-    }
   }, []);
 
   useEffect(() => {
@@ -155,6 +148,11 @@ export function useRestaurantMenu() {
       return;
     }
 
+    if (!tableAccess) {
+      setOrderError(copy.invalidTableAccess);
+      return;
+    }
+
     const whatsappUrl = createWhatsAppOrderUrl({
       items: cart,
       total: cartTotal,
@@ -167,9 +165,13 @@ export function useRestaurantMenu() {
     setOrderError(null);
 
     try {
-      if (hasSupabasePublicConfig()) {
-        await submitRestaurantOrder({ items: cart, total: cartTotal, language, table });
-      }
+      await submitRestaurantOrder({
+        items: cart,
+        total: cartTotal,
+        language,
+        table,
+        tableAccessToken: tableAccess.token,
+      });
 
       const newOrder = createOrder({ items: cart, total: cartTotal });
 
@@ -204,6 +206,7 @@ export function useRestaurantMenu() {
     copy,
     filteredItems,
     history,
+    hasTableAccess,
     isCartOpen,
     isHistoryOpen,
     isSubmitting,

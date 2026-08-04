@@ -67,6 +67,7 @@ export interface UiText {
   emptyCart: string;
   sendingOrder: string;
   orderError: string;
+  invalidTableAccess: string;
   clearHistoryConfirm: string;
   adminPanel: string;
 }
