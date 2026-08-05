@@ -50,10 +50,17 @@ textarea {
   border: 1px solid #e5e5e5;
   border-radius: 0.75rem;
   background: #fff;
+  color: #171717;
+  caret-color: #dc2626;
   padding: 0.75rem 1rem;
   font-weight: 400;
   outline: none;
   transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.admin-input::placeholder {
+  color: #a3a3a3;
+  opacity: 1;
 }
 
 @media (max-width: 639px) {

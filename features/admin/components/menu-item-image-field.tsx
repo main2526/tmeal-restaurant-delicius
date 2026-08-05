@@ -144,7 +144,7 @@ export function MenuItemImageField({
             </label>
             <div className="relative">
               <ImagePlus
-                className="absolute left-3 top-3.5 text-neutral-400"
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-neutral-400"
                 size={17}
               />
               <input
@@ -153,7 +153,8 @@ export function MenuItemImageField({
                 value={imageUrl}
                 onChange={(event) => onUrlChange(event.target.value)}
                 placeholder="https://..."
-                className="admin-input pl-10"
+                className="admin-input"
+                style={{ paddingLeft: "2.75rem" }}
               />
             </div>
             {file && imageUrl.trim() ? (

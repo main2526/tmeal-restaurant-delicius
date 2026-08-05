@@ -1,4 +1,4 @@
-import { ChevronsUpDown, History, ShieldCheck } from "lucide-react";
+import { History, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 import type { Language, UiText } from "../../types";
@@ -110,8 +110,7 @@ function LanguageButton({
       type="button"
       onClick={onToggle}
       aria-label={isSpanish ? "Idioma español. Cambiar a inglés" : "English language. Switch to Spanish"}
-      className="group flex min-w-0 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white px-2.5 py-1.5 text-neutral-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-red-200 hover:shadow-md active:translate-y-0 sm:rounded-2xl sm:px-3"
-      style={{ height: 42 }}
+      className="group flex h-[38px] min-w-0 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white px-2.5 text-neutral-800 shadow-sm transition-all hover:border-red-200 hover:bg-red-50 active:scale-95 sm:h-[40px] sm:rounded-2xl sm:px-3"
     >
       <span
         className="flex shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-sm ring-1 ring-neutral-200 transition-transform group-hover:scale-105"
@@ -119,15 +118,9 @@ function LanguageButton({
       >
         {isSpanish ? <DominicanFlag /> : <UnitedStatesFlag />}
       </span>
-      <span className="min-w-0 text-left leading-none">
-        <span className="block text-[8px] font-bold uppercase tracking-[0.12em] text-neutral-400">
-          {isSpanish ? "Idioma" : "Language"}
-        </span>
-        <span className="mt-1 block text-[10px] font-black uppercase tracking-wide sm:text-[11px]">
-          {isSpanish ? "Español" : "English"}
-        </span>
+      <span className="text-[11px] font-black uppercase tracking-[0.08em] text-neutral-800 group-hover:text-red-600 sm:text-xs">
+        {isSpanish ? "ES" : "EN"}
       </span>
-      <ChevronsUpDown aria-hidden="true" size={12} className="shrink-0 text-neutral-300 transition-colors group-hover:text-red-500" />
     </button>
   );
 }
