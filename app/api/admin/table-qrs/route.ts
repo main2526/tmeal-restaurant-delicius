@@ -7,6 +7,8 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const pdfPath = join(process.cwd(), "output", "pdf", "codigos-qr-mesas.pdf");
+const qrDirectory = join(process.cwd(), "generated-qrs");
+const tableCount = 12;
 
 export async function GET(request: Request) {
   const authorization = request.headers.get("authorization");
@@ -36,6 +38,27 @@ export async function GET(request: Request) {
   }
 
   try {
+    const tableParam = new URL(request.url).searchParams.get("mesa");
+
+    if (tableParam !== null) {
+      const tableNumber = Number(tableParam);
+
+      if (!Number.isInteger(tableNumber) || tableNumber < 1 || tableNumber > tableCount) {
+        return Response.json({ error: "La mesa solicitada no es válida." }, { status: 400 });
+      }
+
+      const svg = await readFile(join(qrDirectory, `mesa-${tableNumber}.svg`));
+
+      return new Response(svg, {
+        headers: {
+          "Cache-Control": "private, no-store",
+          "Content-Disposition": `inline; filename="qr-mesa-${tableNumber}.svg"`,
+          "Content-Length": String(svg.byteLength),
+          "Content-Type": "image/svg+xml; charset=utf-8",
+        },
+      });
+    }
+
     const pdf = await readFile(pdfPath);
 
     return new Response(pdf, {

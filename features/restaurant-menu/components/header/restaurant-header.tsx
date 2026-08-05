@@ -1,4 +1,4 @@
-import { Globe, History, ShieldCheck } from "lucide-react";
+import { ChevronsUpDown, History, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 import type { Language, UiText } from "../../types";
@@ -103,16 +103,55 @@ function LanguageButton({
   language: Language;
   onToggle: () => void;
 }) {
+  const isSpanish = language === "es";
+
   return (
     <button
       type="button"
       onClick={onToggle}
-      aria-label={language === "es" ? "Cambiar a inglés" : "Switch to Spanish"}
-      className="flex min-w-0 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-neutral-100 px-3 py-2 text-[10px] font-black uppercase tracking-tight transition-colors hover:border-red-200 hover:text-red-600 sm:rounded-2xl"
+      aria-label={isSpanish ? "Idioma español. Cambiar a inglés" : "English language. Switch to Spanish"}
+      className="group flex min-w-0 items-center justify-center gap-2 rounded-xl border border-neutral-200 bg-white px-2.5 py-1.5 text-neutral-800 shadow-sm transition-all hover:-translate-y-0.5 hover:border-red-200 hover:shadow-md active:translate-y-0 sm:rounded-2xl sm:px-3"
+      style={{ height: 42 }}
     >
-      <Globe size={14} className="shrink-0 text-red-600" />
-      {language}
+      <span
+        className="flex shrink-0 items-center justify-center overflow-hidden rounded-full border-2 border-white bg-white shadow-sm ring-1 ring-neutral-200 transition-transform group-hover:scale-105"
+        style={{ width: 28, height: 28, flexBasis: 28 }}
+      >
+        {isSpanish ? <DominicanFlag /> : <UnitedStatesFlag />}
+      </span>
+      <span className="min-w-0 text-left leading-none">
+        <span className="block text-[8px] font-bold uppercase tracking-[0.12em] text-neutral-400">
+          {isSpanish ? "Idioma" : "Language"}
+        </span>
+        <span className="mt-1 block text-[10px] font-black uppercase tracking-wide sm:text-[11px]">
+          {isSpanish ? "Español" : "English"}
+        </span>
+      </span>
+      <ChevronsUpDown aria-hidden="true" size={12} className="shrink-0 text-neutral-300 transition-colors group-hover:text-red-500" />
     </button>
+  );
+}
+
+function DominicanFlag() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 30 20" width="30" height="20" style={{ display: "block", width: 30, height: 20, maxWidth: "none", flex: "none" }}>
+      <rect width="30" height="20" fill="#fff" />
+      <path fill="#002d62" d="M0 0h13v8H0zm17 12h13v8H17z" />
+      <path fill="#ce1126" d="M17 0h13v8H17zM0 12h13v8H0z" />
+      <circle cx="15" cy="10" r="2.1" fill="#fff" stroke="#006847" strokeWidth=".7" />
+      <path d="m15 8.7.7 1.8h-1.4z" fill="#ce1126" />
+    </svg>
+  );
+}
+
+function UnitedStatesFlag() {
+  return (
+    <svg aria-hidden="true" viewBox="0 0 30 20" width="30" height="20" style={{ display: "block", width: 30, height: 20, maxWidth: "none", flex: "none" }}>
+      <rect width="30" height="20" fill="#fff" />
+      {[0, 4, 8, 12, 16].map((y) => <rect key={y} y={y} width="30" height="2" fill="#b22234" />)}
+      <rect width="13" height="10.8" fill="#3c3b6e" />
+      {[2, 5, 8, 11].map((x) => [2, 5, 8].map((y) => <circle key={`${x}-${y}`} cx={x} cy={y} r=".65" fill="#fff" />))}
+    </svg>
   );
 }
 
